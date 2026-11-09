@@ -1,0 +1,28 @@
+<Project>
+  <!--
+    Kompilacja programów w Javie (BenchJava, GuiJava) do bin\*.jar – importowane przez Runner.csproj,
+    więc Java buduje się razem z całym rozwiązaniem w Visual Studio / MSBuild.
+    JDK: zmienna JAVA_HOME albo najnowszy C:\Program Files\Java\jdk-*.
+  -->
+  <Target Name="BuildJava" AfterTargets="Build">
+    <ItemGroup>
+      <_JavacFromHome Include="$(JAVA_HOME)\bin\javac.exe" Condition="'$(JAVA_HOME)' != '' and Exists('$(JAVA_HOME)\bin\javac.exe')" />
+      <_JavacFromProgramFiles Include="$(ProgramW6432)\Java\jdk-*\bin\javac.exe" Condition="'@(_JavacFromHome)' == ''" />
+      <_Javac Include="@(_JavacFromHome);@(_JavacFromProgramFiles)" />
+      <_JavaProgram Include="BenchJava;GuiJava" />
+    </ItemGroup>
+    <PropertyGroup>
+      <!-- przy kilku JDK w Program Files wybierany jest ostatni (alfabetycznie – najnowszy) -->
+      <_JdkBin Condition="'@(_Javac)' != ''">%(_Javac.RootDir)%(_Javac.Directory)</_JdkBin>
+      <_BinDir>$(MSBuildThisFileDirectory)bin\</_BinDir>
+    </PropertyGroup>
+
+    <Warning Condition="'$(_JdkBin)' == ''" Text="Nie znaleziono JDK (JAVA_HOME / Program Files\Java) – BenchJava.jar i GuiJava.jar nie zostaną zbudowane." />
+
+    <RemoveDir Condition="'$(_JdkBin)' != ''" Directories="$(MSBuildThisFileDirectory)%(_JavaProgram.Identity)\out" />
+    <Exec Condition="'$(_JdkBin)' != ''"
+          Command="&quot;$(_JdkBin)javac.exe&quot; --release 25 -encoding UTF-8 -d &quot;$(MSBuildThisFileDirectory)%(_JavaProgram.Identity)\out&quot; &quot;$(MSBuildThisFileDirectory)%(_JavaProgram.Identity)\src\%(_JavaProgram.Identity).java&quot;" />
+    <Exec Condition="'$(_JdkBin)' != ''"
+          Command="&quot;$(_JdkBin)jar.exe&quot; --create --file &quot;$(_BinDir)%(_JavaProgram.Identity).jar&quot; --main-class %(_JavaProgram.Identity) -C &quot;$(MSBuildThisFileDirectory)%(_JavaProgram.Identity)\out&quot; ." />
+  </Target>
+</Project>

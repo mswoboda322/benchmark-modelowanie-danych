@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Java – skompilowane klasy (javac -d out)
+BenchJava/out/
+GuiJava/out/
