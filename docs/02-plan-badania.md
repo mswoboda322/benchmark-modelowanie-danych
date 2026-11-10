@@ -1,6 +1,6 @@
 # Plan badania
 
-*Wersja robocza, 2026-11-09. Zakres i kryteria: [01-zakres-i-kryteria.md](01-zakres-i-kryteria.md).*
+*2026-11-09, zaktualizowano 2026-11-10 (wszystkie etapy zakończone). Zakres i kryteria: [01-zakres-i-kryteria.md](01-zakres-i-kryteria.md).*
 
 ## 1. Stanowisko
 
@@ -202,13 +202,13 @@ dla każdego zadania). Wykresy generowane w Excelu albo skryptem.
 |---|---|---|
 | 1 | Zakres, kryteria, plan | ten dokument ✔ |
 | 2 | Szkielet: kontrakt CLI, SplitMix64, `flush_cache`, zegar w 3 językach; `BenchJava` + `build.ps1`; usunięcie `BenchC`, archiwum wyników v1 | ✔ |
-| 3 | K1: Z1.1–Z1.3 w 3 językach, zgodne wyniki kontrolne | ✔ (C# i Java – wyniki kontrolne zgodne) |
+| 3 | K1: Z1.1–Z1.3 w 3 językach, zgodne wyniki kontrolne | ✔ (C++, C# i Java – wyniki kontrolne zgodne) |
 | 4 | K2: Z2.1–Z2.3 | ✔ |
 | 5 | K3: 3 aplikacje GUI ze scenariuszami `--bench` | ✔ |
 | 6 | Runner: nowe serie, losowa kolejność, pomiar zasobów, CSV | ✔ |
-| 7 | Próbny przebieg `Runner.exe --quick`, korekta parametrów | ✔ dla C# i Javy; C++ czeka na kompilator MSVC |
-| 8 | Pomiary właściwe: `Runner.exe` (ok. 30–40 min) + opcjonalnie `Runner.exe K3 --cold` | CSV |
-| 9 | Analiza, wykresy, dokumentacja → Google Docs | dokumentacja badania i projektu |
+| 7 | Próbny przebieg `Runner.exe --quick`, korekta parametrów | ✔ (2026-11-10, wszystkie 3 języki) |
+| 8 | Pomiary właściwe: `Runner.exe` (ok. 30–40 min) + opcjonalnie `Runner.exe K3 --cold` | ✔ CSV w `wyniki/2026-11-10/` (bez `--cold`) |
+| 9 | Analiza, wykresy, dokumentacja → Google Docs | ✔ [04-wyniki.md](04-wyniki.md), `analiza/analiza.mjs`, sprawozdanie w Google Docs |
 
 ## 8. Struktura dokumentacji końcowej (krótka)
 

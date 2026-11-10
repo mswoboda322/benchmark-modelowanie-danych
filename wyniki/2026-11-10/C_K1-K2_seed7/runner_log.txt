@@ -1,0 +1,366 @@
+─────────────────────────────────────────────────── Badanie: C++ vs C# vs Java – pamięć, wielowątkowość, GUI ───────────────────────────────────────────────────
+╭─Parametry────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Procesor            13th Gen Intel(R) Core(TM) i5-13500 – 20 wątków logicznych                       │
+│ Pamięć RAM          15,7 GB                                                                          │
+│ System              Microsoft Windows 10.0.26300                                                     │
+│ .NET                .NET 10.0.9                                                                      │
+│ Java                java version "25.0.1" 2025-10-21 LTS (C:\Program Files\Java\jdk-25\bin\java.exe) │
+│ Data                2026-11-10 07:50:16                                                              │
+│ Języki              C++, C#, Java                                                                    │
+│ Kryteria            K1, K2                                                                           │
+│ Profil              pełny: 3 iteracje rozgrzewkowe + 10 pomiarów                                     │
+│ Ziarno kolejności   7                                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+────────────────────────────────────────────────────────────── K1 – efektywność pracy z pamięcią ───────────────────────────────────────────────────────────────
+mem-access | seq | 16 KB | flush | C++: 1%
+mem-access | rand | 4 MB | flush | C#: 23%
+mem-access | rand | 16 MB | flush | C#: 25%
+mem-access | rand | 64 MB | flush | C#: 26%
+mem-access | rand | 64 MB | flush | C++: 27%
+mem-access | rand | 64 MB | flush | Java: 28%
+mem-access | rand | 256 MB | flush | Java: 28%
+mem-access | rand | 256 MB | flush | C++: 30%
+mem-access | seq | 1 MB | bez flush | Java: 37%
+mem-access | rand | 1 MB | bez flush | Java: 51%
+mem-access | rand | 16 MB | bez flush | Java: 56%
+mem-access | rand | 64 MB | bez flush | Java: 57%
+mem-access | rand | 64 MB | bez flush | C#: 59%
+mem-access | rand | 256 MB | bez flush | C#: 60%
+mem-access | rand | 256 MB | bez flush | Java: 60%
+mem-access | rand | 256 MB | bez flush | C++: 61%
+matmul | ijk | N=1024 | flush | Java: 66%
+matmul | ijk | N=1024 | flush | Java: 66%
+matmul | ijk | N=1024 | flush | C#: 67%
+matmul | ijk | N=1024 | flush | C#: 67%
+matmul | ijk | N=1024 | flush | C++: 68%
+matmul | ijk | N=1024 | flush | C++: 68%
+matmul | ikj | N=512 | flush | C++: 71%
+matmul | ikj | N=1024 | flush | C++: 74%
+matmul | ijk | N=256 | bez flush | Java: 76%
+matmul | ijk | N=1024 | bez flush | Java: 80%
+matmul | ijk | N=1024 | bez flush | Java: 80%
+matmul | ijk | N=1024 | bez flush | C++: 80%
+matmul | ijk | N=1024 | bez flush | C++: 80%
+matmul | ijk | N=1024 | bez flush | C#: 81%
+matmul | ijk | N=1024 | bez flush | C#: 81%
+matmul | ikj | N=1024 | bez flush | C#: 87%
+objects | points-ref | 10 000 000 | C#: 91%
+objects | trees | d=16 | C#: 95%
+objects | trees | d=16 | C++: 96%
+objects | trees | d=16 | Java: 97%
+objects | trees | d=18 | C++: 98%
+objects | trees | d=18 | C++: 98%
+objects | trees | d=18 | Java: 99%
+
+           Z1.1 Dostęp do pamięci – ns/dostęp           
+╭───────────────────────────┬────────┬────────┬────────╮
+│ Konfiguracja              │    C++ │     C# │   Java │
+├───────────────────────────┼────────┼────────┼────────┤
+│ seq | 16 KB | flush       │   0,09 │   0,31 │   0,06 │
+│ seq | 128 KB | flush      │   0,08 │   0,30 │   0,06 │
+│ seq | 1 MB | flush        │   0,09 │   0,29 │   0,08 │
+│ seq | 4 MB | flush        │   0,11 │   0,33 │   0,10 │
+│ seq | 16 MB | flush       │   0,27 │   0,44 │   0,22 │
+│ seq | 64 MB | flush       │   0,23 │   0,39 │   0,19 │
+│ seq | 256 MB | flush      │   0,21 │   0,36 │   0,18 │
+│ rand | 16 KB | flush      │   1,32 │   1,39 │   1,09 │
+│ rand | 128 KB | flush     │   2,67 │   2,73 │   2,43 │
+│ rand | 1 MB | flush       │   4,36 │   4,51 │   4,28 │
+│ rand | 4 MB | flush       │  12,67 │  15,05 │  12,38 │
+│ rand | 16 MB | flush      │  43,85 │  57,84 │  52,67 │
+│ rand | 64 MB | flush      │ 104,59 │ 111,26 │ 106,00 │
+│ rand | 256 MB | flush     │ 126,06 │ 124,87 │ 129,79 │
+│ seq | 16 KB | bez flush   │   0,09 │   0,29 │   0,06 │
+│ seq | 128 KB | bez flush  │   0,08 │   0,30 │   0,06 │
+│ seq | 1 MB | bez flush    │   0,09 │   0,29 │   0,06 │
+│ seq | 4 MB | bez flush    │   0,08 │   0,35 │   0,08 │
+│ seq | 16 MB | bez flush   │   0,10 │   0,34 │   0,12 │
+│ seq | 64 MB | bez flush   │   0,20 │   0,41 │   0,20 │
+│ seq | 256 MB | bez flush  │   0,18 │   0,38 │   0,18 │
+│ rand | 16 KB | bez flush  │   1,40 │   1,47 │   1,11 │
+│ rand | 128 KB | bez flush │   2,67 │   2,89 │   2,44 │
+│ rand | 1 MB | bez flush   │   4,40 │   4,45 │   4,13 │
+│ rand | 4 MB | bez flush   │  12,43 │  11,81 │  12,45 │
+│ rand | 16 MB | bez flush  │  42,87 │  47,57 │  45,16 │
+│ rand | 64 MB | bez flush  │ 101,59 │ 105,19 │ 110,42 │
+│ rand | 256 MB | bez flush │ 124,54 │ 126,98 │ 129,18 │
+╰───────────────────────────┴────────┴────────┴────────╯
+
+        Z1.2 Mnożenie macierzy – GFLOP/s         
+╭──────────────────────────┬──────┬──────┬──────╮
+│ Konfiguracja             │  C++ │   C# │ Java │
+├──────────────────────────┼──────┼──────┼──────┤
+│ ijk | N=256 | flush      │ 3,79 │ 2,16 │ 3,80 │
+│ ijk | N=512 | flush      │ 0,96 │ 0,91 │ 1,02 │
+│ ijk | N=1024 | flush     │ 0,43 │ 0,45 │ 0,44 │
+│ ikj | N=256 | flush      │ 3,51 │ 2,91 │ 6,25 │
+│ ikj | N=512 | flush      │ 3,44 │ 2,90 │ 7,12 │
+│ ikj | N=1024 | flush     │ 1,70 │ 1,28 │ 4,76 │
+│ ijk | N=256 | bez flush  │ 3,62 │ 2,14 │ 3,04 │
+│ ijk | N=512 | bez flush  │ 0,93 │ 0,97 │ 0,94 │
+│ ijk | N=1024 | bez flush │ 0,43 │ 0,47 │ 0,44 │
+│ ikj | N=256 | bez flush  │ 3,34 │ 2,89 │ 6,56 │
+│ ikj | N=512 | bez flush  │ 3,52 │ 2,91 │ 6,72 │
+│ ikj | N=1024 | bez flush │ 1,63 │ 1,16 │ 5,26 │
+╰──────────────────────────┴──────┴──────┴──────╯
+          Z1.2 Mnożenie macierzy – mediana [ms]           
+╭──────────────────────────┬─────────┬─────────┬─────────╮
+│ Konfiguracja             │     C++ │      C# │    Java │
+├──────────────────────────┼─────────┼─────────┼─────────┤
+│ ijk | N=256 | flush      │     8,9 │    15,6 │     8,8 │
+│ ijk | N=512 | flush      │   278,7 │   295,4 │   263,8 │
+│ ijk | N=1024 | flush     │ 4 937,8 │ 4 770,3 │ 4 862,9 │
+│ ikj | N=256 | flush      │     9,6 │    11,5 │     5,4 │
+│ ikj | N=512 | flush      │    78,1 │    92,7 │    37,7 │
+│ ikj | N=1024 | flush     │ 1 262,9 │ 1 676,5 │   450,9 │
+│ ijk | N=256 | bez flush  │     9,3 │    15,7 │    11,0 │
+│ ijk | N=512 | bez flush  │   287,1 │   277,4 │   285,1 │
+│ ijk | N=1024 | bez flush │ 4 993,7 │ 4 596,0 │ 4 912,6 │
+│ ikj | N=256 | bez flush  │    10,0 │    11,6 │     5,1 │
+│ ikj | N=512 | bez flush  │    76,3 │    92,2 │    40,0 │
+│ ikj | N=1024 | bez flush │ 1 315,7 │ 1 852,2 │   408,3 │
+╰──────────────────────────┴─────────┴─────────┴─────────╯
+
+    Z1.3 Obiekty w pamięci i alokacja – mediana [ms]     
+╭───────────────────────────┬─────────┬─────────┬───────╮
+│ Konfiguracja              │     C++ │      C# │  Java │
+├───────────────────────────┼─────────┼─────────┼───────┤
+│ points-value | 10 000 000 │    11,6 │    14,6 │   9,8 │
+│ points-ref | 10 000 000   │    22,4 │    20,0 │  20,9 │
+│ trees | d=14              │    93,3 │    20,6 │  14,6 │
+│ trees | d=16              │ 1 020,0 │   104,9 │  97,1 │
+│ trees | d=18              │ 4 993,4 │ 1 155,0 │ 453,7 │
+╰───────────────────────────┴─────────┴─────────┴───────╯
+ Z1.3 Obiekty w pamięci i alokacja – 1. iteracja [ms]  
+                   (bez rozgrzewki)                    
+╭───────────────────────────┬─────────┬───────┬───────╮
+│ Konfiguracja              │     C++ │    C# │  Java │
+├───────────────────────────┼─────────┼───────┼───────┤
+│ points-value | 10 000 000 │    11,9 │  18,1 │  13,4 │
+│ points-ref | 10 000 000   │    23,1 │  20,8 │  21,8 │
+│ trees | d=14              │   106,3 │  40,3 │  22,8 │
+│ trees | d=16              │   455,0 │ 162,0 │ 101,9 │
+│ trees | d=18              │ 2 037,2 │ 730,6 │ 367,6 │
+╰───────────────────────────┴─────────┴───────┴───────╯
+  Z1.3 Obiekty w pamięci i alokacja – szczyt    
+              pamięci procesu [MB]              
+╭───────────────────────────┬─────┬─────┬──────╮
+│ Konfiguracja              │ C++ │  C# │ Java │
+├───────────────────────────┼─────┼─────┼──────┤
+│ points-value | 10 000 000 │ 237 │ 252 │  295 │
+│ points-ref | 10 000 000   │ 392 │ 485 │  625 │
+│ trees | d=14              │  10 │  41 │  122 │
+│ trees | d=16              │  17 │  49 │  209 │
+│ trees | d=18              │  41 │  91 │  556 │
+╰───────────────────────────┴─────┴─────┴──────╯
+ Z1.3 Obiekty w pamięci i alokacja – liczba GC /  
+                     iterację                     
+╭───────────────────────────┬─────┬───────┬──────╮
+│ Konfiguracja              │ C++ │    C# │ Java │
+├───────────────────────────┼─────┼───────┼──────┤
+│ points-value | 10 000 000 │ 0,0 │   0,0 │  0,0 │
+│ points-ref | 10 000 000   │ 0,0 │   0,0 │  0,0 │
+│ trees | d=14              │ 0,0 │   8,0 │  4,0 │
+│ trees | d=16              │ 0,0 │  39,0 │ 19,5 │
+│ trees | d=18              │ 0,0 │ 176,0 │ 54,0 │
+╰───────────────────────────┴─────┴───────┴──────╯
+Z1.3 Obiekty w pamięci i alokacja – pauzy GC [ms] 
+                    / iterację                    
+╭───────────────────────────┬─────┬───────┬──────╮
+│ Konfiguracja              │ C++ │    C# │ Java │
+├───────────────────────────┼─────┼───────┼──────┤
+│ points-value | 10 000 000 │ 0,0 │   0,0 │  0,0 │
+│ points-ref | 10 000 000   │ 0,0 │   0,0 │  0,0 │
+│ trees | d=14              │ 0,0 │   3,3 │  2,5 │
+│ trees | d=16              │ 0,0 │  23,3 │ 15,5 │
+│ trees | d=18              │ 0,0 │ 385,8 │ 63,5 │
+╰───────────────────────────┴─────┴───────┴──────╯
+
+     K1 – podsumowanie – czas względem C++ (średnia       
+                geometryczna, C++ = 1,00)                 
+╭───────────────────────────────────┬──────┬──────┬──────╮
+│ Konfiguracja                      │  C++ │   C# │ Java │
+├───────────────────────────────────┼──────┼──────┼──────┤
+│ Z1.1 Dostęp do pamięci            │ 1,00 │ 1,72 │ 0,91 │
+│ Z1.2 Mnożenie macierzy            │ 1,00 │ 1,21 │ 0,67 │
+│ Z1.3 Obiekty w pamięci i alokacja │ 1,00 │ 0,36 │ 0,25 │
+╰───────────────────────────────────┴──────┴──────┴──────╯
+
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016\K1_iteracje.csv
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016\K1_procesy.csv
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016\K1_podsumowanie.csv
+
+─────────────────────────────────────────────────────────────── K2 – wykorzystanie wielu rdzeni ────────────────────────────────────────────────────────────────
+mandelbrot | static | 2000² | 1 w. | C#: 0%
+mandelbrot | static | 2000² | 1 w. | Java: 0%
+mandelbrot | static | 2000² | 1 w. | C++: 1%
+mandelbrot | static | 2000² | 2 w. | C#: 2%
+mandelbrot | static | 2000² | 2 w. | Java: 3%
+mandelbrot | static | 2000² | 4 w. | Java: 4%
+mandelbrot | static | 2000² | 6 w. | Java: 6%
+mandelbrot | static | 2000² | 8 w. | C#: 9%
+mandelbrot | static | 2000² | 14 w. | Java: 11%
+mandelbrot | dynamic | 2000² | 1 w. | C#: 14%
+mandelbrot | dynamic | 2000² | 1 w. | Java: 15%
+mandelbrot | dynamic | 2000² | 1 w. | C++: 15%
+mandelbrot | dynamic | 2000² | 2 w. | Java: 17%
+mandelbrot | dynamic | 2000² | 4 w. | Java: 18%
+mandelbrot | dynamic | 2000² | 6 w. | C++: 22%
+mandelbrot | dynamic | 2000² | 14 w. | C#: 25%
+sync | mutex | 4 w. | C++: 34%
+sync | mutex | 6 w. | C#: 35%
+sync | mutex | 8 w. | C#: 38%
+sync | mutex | 14 w. | C++: 40%
+sync | mutex | 20 w. | C++: 43%
+sync | atomic | 6 w. | C++: 50%
+sync | local-shared | 2 w. | C#: 61%
+sync | local-padded | 2 w. | C#: 75%
+queue | 6 w. (1 prod. + 5 kons.) | C++: 92%
+queue | 8 w. (1 prod. + 7 kons.) | C++: 95%
+queue | 14 w. (1 prod. + 13 kons.) | Java: 96%
+queue | 14 w. (1 prod. + 13 kons.) | C++: 97%
+queue | 20 w. (1 prod. + 19 kons.) | C++: 97%
+queue | 20 w. (1 prod. + 19 kons.) | Java: 98%
+queue | 20 w. (1 prod. + 19 kons.) | C#: 99%
+
+       Z2.1 Mandelbrot – skalowanie – mediana [ms]       
+╭─────────────────────────┬─────────┬─────────┬─────────╮
+│ Konfiguracja            │     C++ │      C# │    Java │
+├─────────────────────────┼─────────┼─────────┼─────────┤
+│ static | 2000² | 1 w.   │ 2 352,6 │ 2 393,0 │ 2 412,6 │
+│ static | 2000² | 2 w.   │ 1 105,2 │ 1 100,6 │ 1 125,1 │
+│ static | 2000² | 4 w.   │ 1 073,9 │ 1 077,6 │ 1 085,2 │
+│ static | 2000² | 6 w.   │   898,2 │   900,4 │   916,8 │
+│ static | 2000² | 8 w.   │   739,2 │   739,7 │   751,7 │
+│ static | 2000² | 14 w.  │   384,3 │   415,9 │   425,6 │
+│ static | 2000² | 20 w.  │   249,3 │   247,6 │   267,3 │
+│ dynamic | 2000² | 1 w.  │ 2 387,6 │ 2 503,1 │ 2 582,5 │
+│ dynamic | 2000² | 2 w.  │ 1 106,2 │ 1 111,9 │ 1 111,9 │
+│ dynamic | 2000² | 4 w.  │   493,4 │   544,6 │   759,6 │
+│ dynamic | 2000² | 6 w.  │   256,6 │   282,2 │   376,3 │
+│ dynamic | 2000² | 8 w.  │   200,9 │   203,4 │   287,8 │
+│ dynamic | 2000² | 14 w. │   130,2 │   134,6 │   169,0 │
+│ dynamic | 2000² | 20 w. │    98,0 │   101,8 │   112,8 │
+╰─────────────────────────┴─────────┴─────────┴─────────╯
+  Z2.1 Mandelbrot – skalowanie – przyspieszenie    
+                     T(1)/T(n)                     
+╭─────────────────────────┬───────┬───────┬───────╮
+│ Konfiguracja            │   C++ │    C# │  Java │
+├─────────────────────────┼───────┼───────┼───────┤
+│ static | 2000² | 1 w.   │  1,00 │  1,00 │  1,00 │
+│ static | 2000² | 2 w.   │  2,13 │  2,17 │  2,14 │
+│ static | 2000² | 4 w.   │  2,19 │  2,22 │  2,22 │
+│ static | 2000² | 6 w.   │  2,62 │  2,66 │  2,63 │
+│ static | 2000² | 8 w.   │  3,18 │  3,24 │  3,21 │
+│ static | 2000² | 14 w.  │  6,12 │  5,75 │  5,67 │
+│ static | 2000² | 20 w.  │  9,44 │  9,67 │  9,03 │
+│ dynamic | 2000² | 1 w.  │  1,00 │  1,00 │  1,00 │
+│ dynamic | 2000² | 2 w.  │  2,16 │  2,25 │  2,32 │
+│ dynamic | 2000² | 4 w.  │  4,84 │  4,60 │  3,40 │
+│ dynamic | 2000² | 6 w.  │  9,30 │  8,87 │  6,86 │
+│ dynamic | 2000² | 8 w.  │ 11,88 │ 12,30 │  8,97 │
+│ dynamic | 2000² | 14 w. │ 18,34 │ 18,59 │ 15,28 │
+│ dynamic | 2000² | 20 w. │ 24,35 │ 24,58 │ 22,89 │
+╰─────────────────────────┴───────┴───────┴───────╯
+ Z2.1 Mandelbrot – skalowanie – efektywność S/n 
+╭─────────────────────────┬──────┬──────┬──────╮
+│ Konfiguracja            │  C++ │   C# │ Java │
+├─────────────────────────┼──────┼──────┼──────┤
+│ static | 2000² | 1 w.   │ 1,00 │ 1,00 │ 1,00 │
+│ static | 2000² | 2 w.   │ 1,06 │ 1,09 │ 1,07 │
+│ static | 2000² | 4 w.   │ 0,55 │ 0,56 │ 0,56 │
+│ static | 2000² | 6 w.   │ 0,44 │ 0,44 │ 0,44 │
+│ static | 2000² | 8 w.   │ 0,40 │ 0,40 │ 0,40 │
+│ static | 2000² | 14 w.  │ 0,44 │ 0,41 │ 0,40 │
+│ static | 2000² | 20 w.  │ 0,47 │ 0,48 │ 0,45 │
+│ dynamic | 2000² | 1 w.  │ 1,00 │ 1,00 │ 1,00 │
+│ dynamic | 2000² | 2 w.  │ 1,08 │ 1,13 │ 1,16 │
+│ dynamic | 2000² | 4 w.  │ 1,21 │ 1,15 │ 0,85 │
+│ dynamic | 2000² | 6 w.  │ 1,55 │ 1,48 │ 1,14 │
+│ dynamic | 2000² | 8 w.  │ 1,49 │ 1,54 │ 1,12 │
+│ dynamic | 2000² | 14 w. │ 1,31 │ 1,33 │ 1,09 │
+│ dynamic | 2000² | 20 w. │ 1,22 │ 1,23 │ 1,14 │
+╰─────────────────────────┴──────┴──────┴──────╯
+Z2.1 Mandelbrot – skalowanie – czas CPU / czas  
+                  rzeczywisty                   
+╭─────────────────────────┬──────┬──────┬──────╮
+│ Konfiguracja            │  C++ │   C# │ Java │
+├─────────────────────────┼──────┼──────┼──────┤
+│ static | 2000² | 1 w.   │  0,9 │  0,9 │  1,0 │
+│ static | 2000² | 2 w.   │  1,9 │  1,9 │  1,9 │
+│ static | 2000² | 4 w.   │  1,9 │  2,0 │  1,9 │
+│ static | 2000² | 6 w.   │  2,4 │  2,4 │  2,4 │
+│ static | 2000² | 8 w.   │  2,9 │  2,9 │  2,9 │
+│ static | 2000² | 14 w.  │  4,5 │  4,6 │  4,5 │
+│ static | 2000² | 20 w.  │  6,4 │  6,2 │  6,3 │
+│ dynamic | 2000² | 1 w.  │  1,0 │  0,9 │  1,0 │
+│ dynamic | 2000² | 2 w.  │  1,9 │  1,9 │  2,0 │
+│ dynamic | 2000² | 4 w.  │  3,9 │  4,0 │  2,9 │
+│ dynamic | 2000² | 6 w.  │  5,9 │  5,7 │  4,8 │
+│ dynamic | 2000² | 8 w.  │  7,9 │  7,8 │  6,0 │
+│ dynamic | 2000² | 14 w. │ 13,7 │ 13,4 │ 10,8 │
+│ dynamic | 2000² | 20 w. │ 20,6 │ 18,1 │ 16,6 │
+╰─────────────────────────┴──────┴──────┴──────╯
+
+   Z2.2 Koszt synchronizacji – ns/operację    
+╭──────────────────────┬──────┬───────┬──────╮
+│ Konfiguracja         │  C++ │    C# │ Java │
+├──────────────────────┼──────┼───────┼──────┤
+│ mutex | 1 w.         │ 11,7 │  13,9 │  3,7 │
+│ mutex | 2 w.         │ 13,1 │  29,1 │ 15,1 │
+│ mutex | 4 w.         │ 15,9 │ 111,8 │ 21,5 │
+│ mutex | 6 w.         │ 25,0 │ 117,7 │ 23,9 │
+│ mutex | 8 w.         │ 47,9 │ 133,5 │ 21,1 │
+│ mutex | 14 w.        │ 77,2 │ 128,0 │ 23,7 │
+│ mutex | 20 w.        │ 79,5 │  98,9 │ 25,0 │
+│ atomic | 1 w.        │  3,9 │   3,9 │  3,9 │
+│ atomic | 2 w.        │ 15,8 │  10,2 │  9,4 │
+│ atomic | 4 w.        │ 11,0 │   8,8 │  8,8 │
+│ atomic | 6 w.        │  9,4 │  10,7 │  8,9 │
+│ atomic | 8 w.        │ 11,9 │  10,7 │  9,8 │
+│ atomic | 14 w.       │ 19,1 │  15,3 │ 15,7 │
+│ atomic | 20 w.       │ 20,7 │  15,6 │ 13,8 │
+│ local-shared | 1 w.  │  3,9 │   4,0 │  3,9 │
+│ local-shared | 2 w.  │  9,9 │  10,0 │ 10,1 │
+│ local-shared | 4 w.  │  9,3 │   8,8 │ 11,8 │
+│ local-shared | 6 w.  │ 10,8 │  10,8 │ 11,5 │
+│ local-shared | 8 w.  │  7,3 │  10,6 │  9,6 │
+│ local-shared | 14 w. │  7,8 │   8,6 │ 10,0 │
+│ local-shared | 20 w. │  7,6 │   7,7 │  7,4 │
+│ local-padded | 1 w.  │  4,2 │   4,0 │  4,1 │
+│ local-padded | 2 w.  │  2,1 │   2,1 │  2,1 │
+│ local-padded | 4 w.  │  1,0 │   1,1 │  1,1 │
+│ local-padded | 6 w.  │  0,8 │   0,8 │  0,8 │
+│ local-padded | 8 w.  │  0,8 │   0,9 │  0,8 │
+│ local-padded | 14 w. │  0,6 │   1,0 │  0,9 │
+│ local-padded | 20 w. │  0,8 │   1,1 │  1,0 │
+╰──────────────────────┴──────┴───────┴──────╯
+
+    Z2.3 Producent–konsument – mln komunikatów/s     
+╭────────────────────────────┬───────┬──────┬───────╮
+│ Konfiguracja               │   C++ │   C# │  Java │
+├────────────────────────────┼───────┼──────┼───────┤
+│ 2 w. (1 prod. + 1 kons.)   │ 20,74 │ 3,11 │ 12,57 │
+│ 4 w. (1 prod. + 3 kons.)   │ 13,24 │ 1,95 │ 14,60 │
+│ 6 w. (1 prod. + 5 kons.)   │  3,94 │ 1,25 │ 11,20 │
+│ 8 w. (1 prod. + 7 kons.)   │  2,23 │ 1,19 │  8,63 │
+│ 14 w. (1 prod. + 13 kons.) │  0,67 │ 1,07 │  4,80 │
+│ 20 w. (1 prod. + 19 kons.) │  0,72 │ 1,07 │  3,76 │
+╰────────────────────────────┴───────┴──────┴───────╯
+
+   K2 – podsumowanie – czas względem C++ (średnia    
+              geometryczna, C++ = 1,00)              
+╭──────────────────────────────┬──────┬──────┬──────╮
+│ Konfiguracja                 │  C++ │   C# │ Java │
+├──────────────────────────────┼──────┼──────┼──────┤
+│ Z2.1 Mandelbrot – skalowanie │ 1,00 │ 1,03 │ 1,15 │
+│ Z2.2 Koszt synchronizacji    │ 1,00 │ 1,27 │ 0,88 │
+│ Z2.3 Producent–konsument     │ 1,00 │ 2,20 │ 0,39 │
+╰──────────────────────────────┴──────┴──────┴──────╯
+
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016\K2_iteracje.csv
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016\K2_procesy.csv
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016\K2_podsumowanie.csv
+
+Wyniki zapisano w: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_075016

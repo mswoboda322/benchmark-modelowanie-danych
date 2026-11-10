@@ -186,7 +186,7 @@ namespace
             for (int j = 0; j < n; j++)
             {
                 (*a)[static_cast<size_t>(i) * n + j] = (i + j) % 10;
-                (*b)[static_cast<size_t>(i) * n + j] = (static_cast<long long>(i) * j) % 10;
+                (*b)[static_cast<size_t>(i) * n + j] = static_cast<double>((static_cast<long long>(i) * j) % 10);
             }
 
         Bench bench;

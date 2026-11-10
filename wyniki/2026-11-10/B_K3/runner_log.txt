@@ -1,0 +1,137 @@
+─────────────────────────────────────────────────── Badanie: C++ vs C# vs Java – pamięć, wielowątkowość, GUI ───────────────────────────────────────────────────
+╭─Parametry────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Procesor            13th Gen Intel(R) Core(TM) i5-13500 – 20 wątków logicznych                       │
+│ Pamięć RAM          15,7 GB                                                                          │
+│ System              Microsoft Windows 10.0.26300                                                     │
+│ .NET                .NET 10.0.9                                                                      │
+│ Java                java version "25.0.1" 2025-10-21 LTS (C:\Program Files\Java\jdk-25\bin\java.exe) │
+│ Data                2026-11-10 07:47:34                                                              │
+│ Języki              C++, C#, Java                                                                    │
+│ Kryteria            K3                                                                               │
+│ Profil              pełny: 3 iteracje rozgrzewkowe + 10 pomiarów                                     │
+│ Ziarno kolejności   2026                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+─────────────────────────────────────────────────────────────────── K3 – aplikacja okienkowa ───────────────────────────────────────────────────────────────────
+Podczas pomiarów na ekranie pojawiają się okna aplikacji – nie używaj w tym czasie komputera.
+startup | warm | 0 | C++ | powt. 1: 0%
+startup | warm | 0 | Java | powt. 5: 25%
+startup | warm | 0 | Java | powt. 10: 51%
+fill | - | 100000 | C# | powt. 1: 74%
+fill | - | 100000 | C++ | powt. 1: 75%
+responsive | idle | 5000 | C# | powt. 1: 85%
+responsive | worker | 5000 | Java | powt. 1: 96%
+responsive | worker | 5000 | C# | powt. 1: 98%
+
+    Z3.1 Start aplikacji – czas do     
+    pierwszego okna – mediana [ms]     
+╭──────────────┬──────┬───────┬───────╮
+│ Konfiguracja │  C++ │    C# │  Java │
+├──────────────┼──────┼───────┼───────┤
+│ ciepły start │ 69,0 │ 263,4 │ 394,8 │
+╰──────────────┴──────┴───────┴───────╯
+ Z3.1 Start aplikacji – ± 95% CI [ms] 
+╭──────────────┬───────┬──────┬──────╮
+│ Konfiguracja │   C++ │   C# │ Java │
+├──────────────┼───────┼──────┼──────┤
+│ ciepły start │ 227,4 │ 13,9 │  8,1 │
+╰──────────────┴───────┴──────┴──────╯
+  Z3.1 Start aplikacji – szczytowy   
+         zestaw roboczy [MB]         
+╭──────────────┬──────┬──────┬──────╮
+│ Konfiguracja │  C++ │   C# │ Java │
+├──────────────┼──────┼──────┼──────┤
+│ ciepły start │ 13,9 │ 43,7 │ 84,1 │
+╰──────────────┴──────┴──────┴──────╯
+  Z3.1 Start aplikacji – szczytowa   
+        pamięć prywatna [MB]         
+╭──────────────┬─────┬──────┬───────╮
+│ Konfiguracja │ C++ │   C# │  Java │
+├──────────────┼─────┼──────┼───────┤
+│ ciepły start │ 2,3 │ 13,5 │ 375,8 │
+╰──────────────┴─────┴──────┴───────╯
+  Z3.1 Start aplikacji – liczba   
+          wątków procesu          
+╭──────────────┬─────┬────┬──────╮
+│ Konfiguracja │ C++ │ C# │ Java │
+├──────────────┼─────┼────┼──────┤
+│ ciepły start │   4 │ 13 │   28 │
+╰──────────────┴─────┴────┴──────╯
+  Z3.1 Start aplikacji – rozmiar   
+  programu [KB] (bez środowiska    
+         uruchomieniowego)         
+╭──────────────┬─────┬─────┬──────╮
+│ Konfiguracja │ C++ │  C# │ Java │
+├──────────────┼─────┼─────┼──────┤
+│ ciepły start │  40 │ 174 │    9 │
+╰──────────────┴─────┴─────┴──────╯
+    Z3.2 Wypełnienie listy – mediana [ms]     
+╭───────────────────┬───────┬─────────┬──────╮
+│ Konfiguracja      │   C++ │      C# │ Java │
+├───────────────────┼───────┼─────────┼──────┤
+│ 10 000 elementów  │  17,7 │    24,4 │  7,6 │
+│ 100 000 elementów │ 335,5 │ 2 150,8 │ 33,4 │
+╰───────────────────┴───────┴─────────┴──────╯
+  Z3.2 Wypełnienie listy – 1. iteracja [ms]  
+╭───────────────────┬───────┬───────┬───────╮
+│ Konfiguracja      │   C++ │    C# │  Java │
+├───────────────────┼───────┼───────┼───────┤
+│ 10 000 elementów  │ 163,9 │  51,8 │  55,7 │
+│ 100 000 elementów │ 364,3 │ 439,5 │ 123,5 │
+╰───────────────────┴───────┴───────┴───────╯
+ Z3.2 Rysowanie obrazu 800×800 – klatki/s  
+╭──────────────┬─────────┬──────┬─────────╮
+│ Konfiguracja │     C++ │   C# │    Java │
+├──────────────┼─────────┼──────┼─────────┤
+│ 100 klatek   │ 1 514,3 │ 38,3 │ 1 210,6 │
+╰──────────────┴─────────┴──────┴─────────╯
+ Z3.3 Responsywność – średnie opóźnienie   
+               zdarzeń [ms]                
+╭──────────────┬────────┬────────┬────────╮
+│ Konfiguracja │    C++ │     C# │   Java │
+├──────────────┼────────┼────────┼────────┤
+│ idle         │   0,10 │   0,26 │   0,14 │
+│ ui-thread    │ 221,20 │ 237,97 │ 227,83 │
+│ worker       │   0,09 │   0,19 │   0,10 │
+╰──────────────┴────────┴────────┴────────╯
+ Z3.3 Responsywność – opóźnienie p95 [ms]  
+╭──────────────┬────────┬────────┬────────╮
+│ Konfiguracja │    C++ │     C# │   Java │
+├──────────────┼────────┼────────┼────────┤
+│ idle         │   0,25 │   0,45 │   0,27 │
+│ ui-thread    │ 487,68 │ 504,26 │ 498,17 │
+│ worker       │   0,24 │   0,52 │   0,17 │
+╰──────────────┴────────┴────────┴────────╯
+ Z3.3 Responsywność – opóźnienie maks.  
+                  [ms]                  
+╭──────────────┬───────┬───────┬───────╮
+│ Konfiguracja │   C++ │    C# │  Java │
+├──────────────┼───────┼───────┼───────┤
+│ idle         │   0,5 │  10,5 │   1,6 │
+│ ui-thread    │ 566,1 │ 581,7 │ 571,6 │
+│ worker       │   0,8 │   5,8 │   2,7 │
+╰──────────────┴───────┴───────┴───────╯
+  Z3.3 Responsywność – zdarzenia   
+        opóźnione > 100 ms         
+╭──────────────┬─────┬─────┬──────╮
+│ Konfiguracja │ C++ │  C# │ Java │
+├──────────────┼─────┼─────┼──────┤
+│ idle         │   0 │   0 │    0 │
+│ ui-thread    │ 238 │ 247 │  301 │
+│ worker       │   0 │   0 │    0 │
+╰──────────────┴─────┴─────┴──────╯
+ Z3.3 Responsywność – obliczone   
+      obrazy (przepustowość)      
+╭──────────────┬─────┬────┬──────╮
+│ Konfiguracja │ C++ │ C# │ Java │
+├──────────────┼─────┼────┼──────┤
+│ idle         │   0 │  0 │    0 │
+│ ui-thread    │  12 │ 12 │   12 │
+│ worker       │  11 │ 11 │   11 │
+╰──────────────┴─────┴────┴──────╯
+
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_074734\K3_pomiary.csv
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_074734\K3_procesy.csv
+Zapisano: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_074734\K3_podsumowanie.csv
+
+Wyniki zapisano w: D:\02-prywatne\04-studia\03-modelowanie\01-projekt\benchmark-modelowanie-danych\bin\wyniki_20261110_074734

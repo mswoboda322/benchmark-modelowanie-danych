@@ -1,6 +1,6 @@
 # Zakres badania i kryteria porównania
 
-*Wersja robocza, 2026-11-09. Następny krok: [02-plan-badania.md](02-plan-badania.md).*
+*2026-11-09. Plan: [02-plan-badania.md](02-plan-badania.md), wyniki i weryfikacja hipotez: [04-wyniki.md](04-wyniki.md).*
 
 ## 1. Cel
 

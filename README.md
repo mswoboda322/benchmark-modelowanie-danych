@@ -71,4 +71,11 @@ pliki otwierają się bezpośrednio w polskim Excelu):
 | `K1_podsumowanie.csv`, `K2_podsumowanie.csv` | mediana, średnia, odch. std, 95% CI, metryka zadania, przyspieszenie, czas względem C++ |
 | `K3_pomiary.csv`, `K3_procesy.csv`, `K3_podsumowanie.csv` | surowe wartości z aplikacji GUI, dane procesów, statystyki |
 
-Wyniki pełnego pomiaru zostaną opisane w dokumentacji badania.
+Wykresy i tabele do dokumentacji:
+
+```powershell
+node analizaanaliza.mjs binwyniki_RRRRMMDD_GGMMSS   # → binwyniki_…analizawykres_*.svg + tabele.md
+```
+
+Wyniki pełnego badania z 2026-11-10 i ich omówienie: [docs/04-wyniki.md](docs/04-wyniki.md)
+(dane w [wyniki/2026-11-10/](wyniki/2026-11-10/)).
